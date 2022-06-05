@@ -3,7 +3,38 @@
 ### Data Analysis Using Power BI
 ==================================
 
-1. Formula to create norm_amount column
+1. Formula for Total savings
 
-`= Table.AddColumn(#"Filtered Rows", "norm_amount", each if [currency] = "USD" or [currency] ="USD#(cr)" then [sales_amount]*75 else [sales_amount], type any)`
+	Total Saving = CALCULATE(SUM(FinData[Value]),FinData[Type]="Savings")
+  
+2. Formula for Total income
+
+	Total Income = CALCULATE(SUM(FinData[Value]),FinData[Type]="Income")
+
+3. Formula for Total expenses
+
+	Total Expense = CALCULATE(SUM(FinData[Value]),FinData[Type]="Expense")
+	
+4. Formula for savings%
+
+	Savings % = DIVIDE([Total Saving],[Total Income])
+
+5. Formula for expense%
+
+	Expense % = DIVIDE([Total Expense],[Total Income])
+	
+6. Formula for income change month on month
+
+	Income Change MoM % = DIVIDE([Total Income],[Income LM])
+	
+7. Formula for Net worth
+
+	Cumulative Net Worth = 
+	CALCULATE (
+    Total Saving],
+    FILTER (
+    ALL ( FinData[Date] ),
+    FinData[Date] <= MAX ( (FinData[Date] ) )
+    )
+	)
 
